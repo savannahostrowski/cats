@@ -48,8 +48,8 @@ interface BadgeCardProps {
   }[];
 }
 
-const CatCard = ({ image, title, description, country, badges }: BadgeCardProps) => {
-  const { classes, theme } = useStyles();
+const CatCard = () => {
+  const { classes } = useStyles();
   const [cat, setCat] = useState<Cat>();
   const [requesting, setRequesting] = useState(true);
 
@@ -71,7 +71,19 @@ const CatCard = ({ image, title, description, country, badges }: BadgeCardProps)
   };
 
   const handleSubmit = (value: number) => {
-    console.log(value);
+    fetch(`/api/cats/${cat.id}/rating`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cat_id: cat.id,
+        rating: value,
+      }),
+    })
+      .then(() => {
+        window.location.reload();
+      })
   };
 
 
@@ -90,7 +102,7 @@ const CatCard = ({ image, title, description, country, badges }: BadgeCardProps)
               <Text fz="lg" fw={500}>
                 Meet {cat.name} &#128075;!
               </Text>
-              <Badge size="sm">Breed: {cat.type}</Badge>
+              <Badge size="sm" color="pink">Breed: {cat.type}</Badge>
             </Group>
             <Text mt="md" className={classes.label} c="dimmed">
               Perfect for you, if you enjoy:
@@ -100,23 +112,23 @@ const CatCard = ({ image, title, description, country, badges }: BadgeCardProps)
             </Group>
           </Card.Section>
           <Card.Section className={classes.section} mt="md">
-              <Grid>
-                <Grid.Col xs={4}>
-                  <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
-                    Cuteness Score
-                  </Text>
-                  <Text weight={700} size="xl">
-                    {cat.average_rating}
-                  </Text>
-                </Grid.Col>
-                <Grid.Col xs={8}>
-                  <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
-                    Your rating
-                  </Text>
-                  <RatingSlider handleSliderValue={handleSubmit} />
-                </Grid.Col>
-              </Grid>
-            </Card.Section>
+            <Grid>
+              <Grid.Col xs={4}>
+                <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+                  Cuteness Score
+                </Text>
+                <Text weight={700} size="xl">
+                  {cat.average_rating}
+                </Text>
+              </Grid.Col>
+              <Grid.Col xs={8}>
+                <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+                  Your rating
+                </Text>
+                <RatingSlider handleSliderValue={handleSubmit} />
+              </Grid.Col>
+            </Grid>
+          </Card.Section>
         </Card>
       }
     </Container>

@@ -48,7 +48,7 @@ def read_cats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
             print(int(cat.average_rating))
     return cats
 
-#Get a random cat
+# Get a random cat
 @app.get("/api/cats/random", response_model=schemas.Cat)
 def read_random_cat(db: Session = Depends(get_db)):
     cats = crud.get_cats(db)
