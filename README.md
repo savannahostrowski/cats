@@ -5,29 +5,29 @@ A proof-of-concept web app that allows you to rate pictures of cats. You can eve
 All cats have a perfect score of 10!
 
 
-
-
-##TODO:
+## TODOs
 
 ### Saturday
-- [] figure out how to set up postgres as part of backend
-- [] seed database 
+- [ ] figure out how to set up postgres as part of backend
+- [ ] seed database 
   - table for all cats
   - table for ratings (average is score?)
-- [] random cat endpoint (/cat)
+- [ ] random cat endpoint (/cat)
   - on someone rating a cat, 
-- [] all cats endpoint (/cats)
+- [ ] all cats endpoint (/cats)
   - table should have cat avatar, name, age, type, funfact(?) and rating 
 
 ## Sunday
-- [] cat card UI
-- [] cat table UI
-- [] submission form page
-  - [] form
-  - [] image drop
+- [ ] cat card UI
+- [ ] cat table UI
+- [ ] submission form page
+  - [ ] form
+  - [ ] image drop
 
 ## Monday/Tuesday
-- [] set up as an azd template on aca (frontend, backend, database- postgres)
+- [ ] set up as an azd template on aca (frontend, backend, database- postgres)
+- [ ] mark as template repo
+- [ ] submit to awesome azd
 
 ## Next weekend?
-- [] image recognition with pytorch for validation that the image is a cat?
+- [ ] image recognition with pytorch for validation that the image is a cat?
