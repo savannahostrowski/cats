@@ -1,62 +1,52 @@
-import os
-from dotenv import load_dotenv
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException
-from fastapi_sqlalchemy import DBSessionMiddleware, db
-from schema import Cat as SchemaCat
-from models import Cat as ModelCat
-from services import engine, create_db_and_tables
-from sqlalchemy import create_engine
+from typing import List
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy.orm import Session
+import crud, database, models, schemas
 
-BASE_DIR=os.path.dirname(os.path.abspath(__file__))
-load_dotenv(os.path.join(BASE_DIR, ".env"))
-
+models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
-app.add_middleware(DBSessionMiddleware, db_url=os.environ["DATABASE_URL"])
 
-@app.post("/cat", response_model=SchemaCat)
-def create_cat(cat: SchemaCat):
-    db_cat = ModelCat(
-        name=cat.name,
-        age=cat.age,
-        type=cat.type,
-        funfact=cat.funfact,
-        image=cat.image,
-        rating=cat.rating
-    )
-
-    db.session.add(db_cat)
-    db.session.commit()
-    return db.cat
+def get_db():
+    db = database.SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
-
-# @app.get("/")
-# def show_cat():
-#     cat = Cat(
-#         name="Mittens",
-#         age=3,
-#         type="Tabby",
-#         funfact="Mittens is a very good cat.",
-#         image="/images/mittens.jpg"
-#     )
-#     return cat
-    
-
-# @app.get("/cats")
-# def get_cats():
-#     # Get all cats from the database
-#     cats = Cat.all(engine)
-#     return cats
+@app.post("/cats", response_model=schemas.Cat)
+def create_cat(cat: schemas.CatCreate, db: Session = Depends(get_db)):
+    return crud.create_cat(db=db, cat=cat)
 
 
-# @app.get("/submit-your-cat")
-# def submit_cat(cat: str):
-#     return {"cat": cat}
+@app.get("/cats/", response_model=List[schemas.Cat])
+def read_cats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    cats = crud.get_cats(db, skip=skip, limit=limit)
+    return cats
 
 
-# @app.post("/cats")
-# def create_cat(cat: Union[str, int]):
-#     return {"cat": cat}
+@app.get("/cats/{cat_id}", response_model=schemas.Cat)
+def read_cat(cat_id: int, db: Session = Depends(get_db)):
+    db_cat = crud.get_cat(db, cat_id=cat_id)
+    if db_cat is None:
+        raise HTTPException(status_code=404, detail="Cat not found")
+    return db_cat
+
+
+@app.post("/cats/{cat_id}/rating", response_model=schemas.Rating)
+def create_rating(
+    rating: schemas.RatingCreate, cat_id: int, db: Session = Depends(get_db)
+):
+    return crud.create_rating(db=db, rating=rating, cat_id=cat_id)
+
+
+@app.get("/cats/{cat_id}/rating", response_model=int)
+def get_average_rating(cat_id: int, db: Session = Depends(get_db)):
+    ratings = crud.get_ratings(db, cat_id=cat_id)
+    if ratings is None:
+        raise HTTPException(status_code=404, detail="Rating not found")
+    average = sum(ratings) / len(ratings)
+
+    return average * 100

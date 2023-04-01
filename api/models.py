@@ -1,7 +1,6 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
 
-Base = declarative_base()
+from database import Base
 
 
 class Cat(Base):
@@ -13,4 +12,11 @@ class Cat(Base):
     type = Column(String)
     funfact = Column(String)
     image = Column(String)
+
+
+class Rating(Base):
+    __tablename__ = "ratings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    cat_id = Column(Integer, ForeignKey(Cat.id))
     rating = Column(Integer)
