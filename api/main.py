@@ -1,43 +1,55 @@
+import os
+from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException
-from models import Cat
+from fastapi_sqlalchemy import DBSessionMiddleware, db
+from schema import Cat as SchemaCat
+from models import Cat as ModelCat
 from services import engine, create_db_and_tables
 from sqlalchemy import create_engine
 
-engine = create_engine("postgresql://sea:sea@localhost:5432/cats")
+BASE_DIR=os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(DBSessionMiddleware, db_url=os.environ["DATABASE_URL"])
 
-@app.on_event("startup")
-def on_startup():
-    create_db_and_tables(engine)
-
-
-@app.get("/")
-def show_cat():
-    cat = Cat(
-        name="Mittens",
-        age=3,
-        type="Tabby",
-        funfact="Mittens is a very good cat.",
-        image="/images/mittens.jpg"
+@app.post("/cat", response_model=SchemaCat)
+def create_cat(cat: SchemaCat):
+    db_cat = ModelCat(
+        name=cat.name,
+        age=cat.age,
+        type=cat.type,
+        funfact=cat.funfact,
+        image=cat.image,
+        rating=cat.rating
     )
-    return cat
+
+    db.session.add(db_cat)
+    db.session.commit()
+    return db.cat
+
+
+
+# @app.get("/")
+# def show_cat():
+#     cat = Cat(
+#         name="Mittens",
+#         age=3,
+#         type="Tabby",
+#         funfact="Mittens is a very good cat.",
+#         image="/images/mittens.jpg"
+#     )
+#     return cat
     
 
-@app.get("/cats")
-def get_cats():
-    # Get all cats from the database
-    cats = Cat.all(engine)
-    return cats
+# @app.get("/cats")
+# def get_cats():
+#     # Get all cats from the database
+#     cats = Cat.all(engine)
+#     return cats
 
 
 # @app.get("/submit-your-cat")
