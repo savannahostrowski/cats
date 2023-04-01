@@ -5,7 +5,7 @@ export interface Cat {
   type: string;
   age: number;
   funfact: string;
-  rating: number;
+  average_rating: number;
 }
 
 export interface Cats{

@@ -17,12 +17,9 @@ const CatTable = () => {
         fetch("/api/cats")
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setCats(data);
                 setRequesting(false);
-            })
-        
-        
+            })        
     };
 
     const rows = cats.map((cat: Cat) => {
@@ -40,14 +37,14 @@ const CatTable = () => {
                 <td>{cat.age}</td>
                 <td>{cat.type}</td>
                 <td>{cat.funfact}</td>
-                <td>{cat.rating}</td>
+                <td>{cat.average_rating}</td>
             </tr>
         );
     });
 
     return (
         <Container>
-            <h1>Here are all the cats</h1>
+            <h1>All the cute cats!</h1>
             {cats == undefined || (!cats.length && !requesting) ? <Text size="xl" color="gray">No cats yet!</Text> :
                 <ScrollArea>
                     <Table miw={800} verticalSpacing="sm">
@@ -57,6 +54,7 @@ const CatTable = () => {
                                 <th>Age</th>
                                 <th>Type</th>
                                 <th>Fun Fact</th>
+                                <th>Average Cuteness Score</th>
                             </tr>
                         </thead>
                         <tbody>{rows}</tbody>

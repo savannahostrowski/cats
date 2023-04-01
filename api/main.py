@@ -27,24 +27,44 @@ def get_db():
 # Create a new cat submission
 @app.post("/api/cats/", response_model=schemas.Cat)
 def create_cat(cat: schemas.CatCreate, db: Session = Depends(get_db)):
-    return crud.create_cat(db=db, cat=cat)
-
+    cat = crud.create_cat(db=db, cat=cat)
+    # Initialize with a rating of 10 (because cats are 10/10 cute!)
+    crud.create_rating(db=db, rating=10, cat_id=cat.id)
+    return cat
 
 # Get all cats
 @app.get("/api/cats/", response_model=List[schemas.Cat])
 def read_cats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     cats = crud.get_cats(db, skip=skip, limit=limit)
+    for cat in cats:
+        ratings = crud.get_ratings(db, cat_id=cat.id)
+        print(ratings)
+        if ratings is None:
+            raise HTTPException(status_code=404, detail="Rating not found")
+        else:
+            average = sum(ratings) / len(ratings)
+            cat.average_rating = int(average * 100)
+            print(int(cat.average_rating))
     return cats
 
 
+# Get a specific cat and its rating
 @app.get("/api/cats/{cat_id}", response_model=schemas.Cat)
 def read_cat(cat_id: int, db: Session = Depends(get_db)):
     db_cat = crud.get_cat(db, cat_id=cat_id)
     if db_cat is None:
         raise HTTPException(status_code=404, detail="Cat not found")
+    
+    ratings = crud.get_ratings(db, cat_id=cat_id)
+    if ratings is None:
+        raise HTTPException(status_code=404, detail="Rating not found")
+    else:
+        average = sum(ratings) / len(ratings)
+        db_cat.average_rating = average * 100
+
     return db_cat
 
-
+# Create a new rating for a cat
 @app.post("/api/cats/{cat_id}/rating", response_model=schemas.Rating)
 def create_rating(
     rating: schemas.RatingCreate, cat_id: int, db: Session = Depends(get_db)
