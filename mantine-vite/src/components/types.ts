@@ -9,5 +9,5 @@ export interface Cat {
 }
 
 export interface Cats{
-  cats: Cat[];
+  cats: [Cat] | [];
 }

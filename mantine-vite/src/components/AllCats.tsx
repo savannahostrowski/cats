@@ -1,29 +1,32 @@
 import { useEffect, useState } from 'react';
-import { createStyles, Table, Checkbox, ScrollArea, Group, Avatar, Text, rem, Container } from '@mantine/core';
-import { Cat, Cats } from './types';
+import { Table, ScrollArea, Group, Avatar, Text, rem, Container } from '@mantine/core';
+import { Cat, Cats} from './types';
 
 const CatTable = () => {
-
-    const [cats, setCats] = useState([]);
+    const [cats, setCats] = useState([])
     const [requesting, setRequesting] = useState(true);
 
     useEffect(() => {
-        fetchCat();
+        fetchCats();
     }, []);
 
 
-    const fetchCat = () => {
+    const fetchCats = () => {
         setRequesting(true);
 
-        fetch(`/api/cats`)
+        fetch("/api/cats")
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setCats(data);
                 setRequesting(false);
             })
+        
+        
     };
 
     const rows = cats.map((cat: Cat) => {
+        console.log(cat);
         return (
             <tr key={cat.id}>
                 <td>
@@ -45,8 +48,7 @@ const CatTable = () => {
     return (
         <Container>
             <h1>Here are all the cats</h1>
-            {!cats.length ? <Text size="xl" color="gray">No cats yet!</Text> :
-
+            {cats == undefined || (!cats.length && !requesting) ? <Text size="xl" color="gray">No cats yet!</Text> :
                 <ScrollArea>
                     <Table miw={800} verticalSpacing="sm">
                         <thead>
