@@ -97,23 +97,11 @@ const links =
   ];
 
 const App = () => {
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: 'mantine-color-scheme',
-    defaultValue: 'light',
-    getInitialValueInEffect: true,
-  });
-
-  const theme = useMantineTheme();
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState();
+  const [active, setActive] = useState<number>();
 
 
-  const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
-
-  useHotkeys([['mod+J', () => toggleColorScheme()]]);
-
-  const mainItems = links.map((item, index) => (
+  const mainItems = links.map((item, index: number) => (
     <Anchor<'a'>
       href={item.link}
       key={item.label}
@@ -131,20 +119,11 @@ const App = () => {
 
   return (
     <Router>
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider
+          theme={{ colorScheme: 'dark' }}
           withGlobalStyles
-          withNormalizeCSS
-          theme={{ colorScheme }}>
+          withNormalizeCSS>
           <AppShell
-            styles={{
-              main: {
-                background: colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-              },
-            }}
-            navbarOffsetBreakpoint="sm"
-            asideOffsetBreakpoint="sm"
-
             header={
               <Header height={HEADER_HEIGHT} mb={120}>
                 <Container className={classes.inner}>
@@ -157,14 +136,13 @@ const App = () => {
                     }
                   }
                   >
-                  <Text className={classes.title} component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
+                  <Text className={classes.title} component="span" variant="gradient" gradient={{ from: 'purple', to: 'pink' }} inherit>
                     cats.
                   </Text>
                   </Anchor>
                   <div className={classes.links}>
                     <Group spacing={0} position="right" className={classes.mainLinks}>
                       {mainItems}
-                      {/* <ColourSchemeToggle/> */}
                     </Group>
                   </div>
                 </Container>
@@ -177,7 +155,6 @@ const App = () => {
             </Routes>
           </AppShell>
         </MantineProvider>
-      </ColorSchemeProvider >
     </Router>
   )
 }

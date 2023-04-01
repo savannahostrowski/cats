@@ -1,3 +1,4 @@
+import random
 from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -47,6 +48,18 @@ def read_cats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
             print(int(cat.average_rating))
     return cats
 
+#Get a random cat
+@app.get("/api/cats/random", response_model=schemas.Cat)
+def read_random_cat(db: Session = Depends(get_db)):
+    cats = crud.get_cats(db)
+    random_cat = random.choice(cats)
+    ratings = crud.get_ratings(db, cat_id=random_cat.id)
+    if ratings is None:
+        raise HTTPException(status_code=404, detail="Rating not found")
+    else:
+        average = sum(ratings) / len(ratings)
+        random_cat.average_rating = average * 100
+    return random_cat
 
 # Get a specific cat and its rating
 @app.get("/api/cats/{cat_id}", response_model=schemas.Cat)
