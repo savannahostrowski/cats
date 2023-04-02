@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: cats-at-pycon
+metadata:
+  template: cats-at-pycon@0.0.1-beta
+services:
+  web:
+    project: ./frontend
+    module: app/web
+    language: js
+    host: containerapp
+  api:
+    project: ./api
+    module: app/api
+    language: python
+    host: containerapp

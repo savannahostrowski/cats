@@ -29,6 +29,10 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 
 import models
+import database
+
+config.set_main_option(
+    'sqlalchemy.url', database.POSTGRES_DATABASE_URL)
 
 target_metadata = models.Base.metadata
 

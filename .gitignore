@@ -202,3 +202,4 @@ dist/**/*
 yarn.lock
 
 .python-version
+.azure
