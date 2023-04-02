@@ -37,17 +37,6 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface BadgeCardProps {
-  image: string;
-  title: string;
-  country: string;
-  description: string;
-  badges: {
-    emoji: string;
-    label: string;
-  }[];
-}
-
 const CatCard = () => {
   const { classes } = useStyles();
   const [cat, setCat] = useState<Cat>();
@@ -71,6 +60,8 @@ const CatCard = () => {
   };
 
   const handleSubmit = (value: number) => {
+    if (!cat) throw new Error("No cat to rate");
+    
     fetch(`/api/cats/${cat.id}/rating`, {
       method: "POST",
       headers: {

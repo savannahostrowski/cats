@@ -1,4 +1,4 @@
-import { Anchor, AppShell, Container, createStyles, Group, Header, MantineProvider, rem, Text, useMantineTheme } from '@mantine/core';
+import { Anchor, AppShell, Container, createStyles, Group, Header, MantineProvider, rem, Text } from '@mantine/core';
 import CatCard from './components/CatCard';
 import SubmitCat from './components/SubmitCat';
 import { useState } from 'react';
@@ -101,45 +101,39 @@ const App = () => {
       href={item.link}
       key={item.label}
       className={cx(classes.mainLink, { [classes.mainLinkActive]: index === active })}
-      onClick={
-        e => {
-          setActive(index);
-          
-        }
-      }
-    >
+      onClick={() => setActive(index)}>
       {item.label}
     </Anchor>
   ));
 
   return (
     <Router>
-        <MantineProvider
-          theme={{ colorScheme: 'dark' }}
-          withGlobalStyles
-          withNormalizeCSS>
-          <AppShell
-            header={
-              <Header height={HEADER_HEIGHT} mb={120}>
-                <Container className={classes.inner}>
-                  <Text className={classes.title} component="span" variant="gradient" gradient={{ from: 'purple', to: 'pink' }} inherit>
-                    cats.
-                  </Text>
-                  <div className={classes.links}>
-                    <Group spacing={0} position="right" className={classes.mainLinks}>
-                      {mainItems}
-                    </Group>
-                  </div>
-                </Container>
-              </Header>
-            }>
-            <Routes>
-              <Route path="/" element={<CatCard />} />
-              <Route path="/submit" element={<SubmitCat />} />
-              <Route path="/cats" element={<CatTable />} />
-            </Routes>
-          </AppShell>
-        </MantineProvider>
+      <MantineProvider
+        theme={{ colorScheme: 'dark' }}
+        withGlobalStyles
+        withNormalizeCSS>
+        <AppShell
+          header={
+            <Header height={HEADER_HEIGHT} mb={120}>
+              <Container className={classes.inner}>
+                <Text className={classes.title} component="span" variant="gradient" gradient={{ from: 'purple', to: 'pink' }} inherit>
+                  cats.
+                </Text>
+                <div className={classes.links}>
+                  <Group spacing={0} position="right" className={classes.mainLinks}>
+                    {mainItems}
+                  </Group>
+                </div>
+              </Container>
+            </Header>
+          }>
+          <Routes>
+            <Route path="/" element={<CatCard />} />
+            <Route path="/submit" element={<SubmitCat />} />
+            <Route path="/cats" element={<CatTable />} />
+          </Routes>
+        </AppShell>
+      </MantineProvider>
     </Router>
   )
 }

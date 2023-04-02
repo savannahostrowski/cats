@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, ScrollArea, Group, Avatar, Text, rem, Container } from '@mantine/core';
-import { Cat, Cats} from './types';
+import { Cat } from './types';
 
 const CatTable = () => {
     const [cats, setCats] = useState([])
