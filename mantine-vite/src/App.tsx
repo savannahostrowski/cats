@@ -1,6 +1,4 @@
-import { Anchor, AppShell, ColorScheme, ColorSchemeProvider, Container, createStyles, Group, Header, MantineProvider, rem, Text, useMantineTheme } from '@mantine/core';
-import { useHotkeys, useLocalStorage } from '@mantine/hooks';
-import ColourSchemeToggle from './components/ColourSchemeToggle';
+import { Anchor, AppShell, Container, createStyles, Group, Header, MantineProvider, rem, Text, useMantineTheme } from '@mantine/core';
 import CatCard from './components/CatCard';
 import SubmitCat from './components/SubmitCat';
 import { useState } from 'react';
@@ -10,8 +8,6 @@ import {
   Route,
 } from "react-router-dom";
 import CatTable from './components/AllCats';
-
-const BREAKPOINT = '@media (max-width: 755px)';
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -59,32 +55,31 @@ const useStyles = createStyles((theme) => ({
   mainLink: {
     textTransform: 'uppercase',
     fontSize: rem(13),
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[6],
+    color: theme.colors.dark[1],
     padding: `${rem(7)} ${theme.spacing.sm}`,
     fontWeight: 700,
     borderBottom: `${rem(2)} solid transparent`,
     transition: 'border-color 100ms ease, color 100ms ease',
 
     '&:hover': {
-      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+      color: "white",
       textDecoration: 'none',
     },
   },
   mainLinkActive: {
     color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    borderBottomColor: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 5 : 6],
+    borderBottomColor: "pink"
   },
 }));
 
 
 const HEADER_HEIGHT = rem(84);
 
-
 const links =
   [
     {
       "link": "/",
-      "label": "See a cat!"
+      "label": "Rate cats!"
     },
     {
       "link": "/cats",
@@ -109,7 +104,7 @@ const App = () => {
       onClick={
         e => {
           setActive(index);
-          // e.preventDefault();
+          
         }
       }
     >

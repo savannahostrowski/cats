@@ -105,7 +105,7 @@ const CatCard = () => {
               <Badge size="sm" color="pink">Breed: {cat.type}</Badge>
             </Group>
             <Text mt="md" className={classes.label} c="dimmed">
-              Perfect for you, if you enjoy:
+              Fun Fact
             </Text>
             <Group spacing={7} mt={5}>
               {cat.funfact}

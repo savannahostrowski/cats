@@ -101,7 +101,7 @@ const SubmitCat = (props: {}) => {
       </SimpleGrid>
 
       <Group position="right" mt="md">
-        <Button type="submit">Submit your cat!</Button>
+        <Button type="submit" color="pink">Submit your cat!</Button>
       </Group>
     </Box>
   );
