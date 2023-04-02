@@ -23,7 +23,6 @@ class CatBase(BaseModel):
     type: str
     funfact: str
     image: str
-    average_rating: int
 
 
 class CatCreate(CatBase):

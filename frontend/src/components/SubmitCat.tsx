@@ -1,15 +1,9 @@
-import { useForm, isNotEmpty, isInRange, hasLength, matches, } from '@mantine/form';
-import { Button, Group, TextInput, NumberInput, Box, Image, Text, SimpleGrid, createStyles } from '@mantine/core';
-import { useState } from 'react';
-import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { useForm,isInRange, hasLength, matches, } from '@mantine/form';
+import { Button, Group, TextInput, NumberInput, Box } from '@mantine/core';
 
-const useStyles = createStyles((theme) => ({
-  dropzone: {
-    marginTop: theme.spacing.lg,
-  }
-}));
 
-const SubmitCat = (props: {}) => {
+
+const SubmitCat = () => {
   const form = useForm({
     initialValues: {
       name: '',
@@ -38,7 +32,10 @@ const SubmitCat = (props: {}) => {
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res)
+        res.json()
+      })
     //Reset form data
     form.reset();
   };
@@ -46,7 +43,7 @@ const SubmitCat = (props: {}) => {
 
   return (
     <Box maw={600} mx="auto">
-      <form onSubmit={form.onSubmit(console.log)}>
+      <form onSubmit={form.onSubmit(submitCat)}>
         <h1>Submit your cat!</h1>
         <p>Disclaimer: All cats are a perfect 10/10 or greater!</p>
 

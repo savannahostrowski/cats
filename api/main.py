@@ -34,7 +34,7 @@ def create_cat(cat: schemas.CatCreate, db: Session = Depends(get_db)):
     return cat
 
 # Get all cats
-@app.get("/api/cats/", response_model=List[schemas.Cat])
+@app.get("/api/cats/")
 def read_cats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     cats = crud.get_cats(db, skip=skip, limit=limit)
     for cat in cats:
@@ -47,7 +47,7 @@ def read_cats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return cats
 
 # Get a random cat
-@app.get("/api/cats/random", response_model=schemas.Cat or {})
+@app.get("/api/cats/random")
 def read_random_cat(db: Session = Depends(get_db)):
     cats = crud.get_cats(db)
 
@@ -59,14 +59,10 @@ def read_random_cat(db: Session = Depends(get_db)):
     if ratings is None:
         raise HTTPException(status_code=404, detail="Rating not found")
     else:
-        average = sum(ratings) / len(ratings)
+        average = int(sum(ratings) / len(ratings))
         random_cat.average_rating = average * 100
 
     return random_cat
-
-# Get a specific cat and its rating
-@app.get("/api/cats/{cat_id}", response_model=schemas.Cat)
-def read_cat(cat_id: int, db: Session = Depends(get_db)):
     db_cat = crud.get_cat(db, cat_id=cat_id)
     if db_cat is None:
         raise HTTPException(status_code=404, detail="Cat not found")
@@ -85,7 +81,7 @@ def read_cat(cat_id: int, db: Session = Depends(get_db)):
 def create_rating(
     rating: schemas.RatingCreate, cat_id: int, db: Session = Depends(get_db)
 ):
-    return crud.create_rating(db=db, rating=rating, cat_id=cat_id)
+    return crud.create_rating(db=db, rating=rating.rating, cat_id=cat_id)
 
 
 # Get average rating for a cat

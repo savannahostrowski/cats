@@ -21,7 +21,7 @@ def create_cat(db: Session, cat: schemas.CatCreate):
 
 
 def create_rating(db: Session, rating: schemas.RatingCreate, cat_id: int):
-    db_rating = models.Rating(rating=rating.rating, cat_id=cat_id)
+    db_rating = models.Rating(rating=rating, cat_id=cat_id)
     db.add(db_rating)
     db.commit()
     db.refresh(db_rating)
