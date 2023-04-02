@@ -6,8 +6,6 @@ All cats have a perfect score of 10!
 
 ## TODOs
 - [ ] Wire up submission form
-- [ ] drag and drop images with preview
-- [ ] upload to azure blob storage?
 
 - [ ] clean up
   - [ ] Move docker-compose to root
@@ -24,3 +22,5 @@ All cats have a perfect score of 10!
   - [ ] add spinner on rating cat with delay
   - [ ] make it so that you can't rate cats more than once (use local storage?)
   - [ ] make the all cats page sorted from highest to lowest (make it a scoreboard)
+  - [ ] drag and drop images with preview
+  - [ ] upload to azure blob storage?
