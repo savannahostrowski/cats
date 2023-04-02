@@ -23,7 +23,6 @@ const CatTable = () => {
     };
 
     const rows = cats.map((cat: Cat) => {
-        console.log(cat);
         return (
             <tr key={cat.id}>
                 <td>
@@ -37,7 +36,7 @@ const CatTable = () => {
                 <td>{cat.age}</td>
                 <td>{cat.type}</td>
                 <td>{cat.funfact}</td>
-                <td>{cat.average_rating}</td>
+                <td>{cat.average_rating}!!!</td>
             </tr>
         );
     });
@@ -54,7 +53,7 @@ const CatTable = () => {
                                 <th>Age</th>
                                 <th>Type</th>
                                 <th>Fun Fact</th>
-                                <th>Average Cuteness Score</th>
+                                <th>Cuteness Score (out of 10)</th>
                             </tr>
                         </thead>
                         <tbody>{rows}</tbody>

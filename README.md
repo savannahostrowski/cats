@@ -5,29 +5,24 @@ A proof-of-concept web app that allows you to rate pictures of cats. You can eve
 All cats have a perfect score of 10!
 
 
+
 ## TODOs
+- [ ] Wire up submission form
+- [ ] drag and drop images with preview
+- [ ] upload to azure blob storage?
 
-### Saturday
-- [ ] figure out how to set up postgres as part of backend
-- [ ] seed database 
-  - table for all cats
-  - table for ratings (average is score?)
-- [ ] random cat endpoint (/cat)
-  - on someone rating a cat, 
-- [ ] all cats endpoint (/cats)
-  - table should have cat avatar, name, age, type, funfact(?) and rating 
+- [ ] clean up
+  - [ ] Move docker-compose to root
+  - [ ] Rename mantine-vite directory to frontend
+  - [ ] Typescript types
 
-## Sunday
-- [ ] cat card UI
-- [ ] cat table UI
-- [ ] submission form page
-  - [ ] form
-  - [ ] image drop
-
-## Monday/Tuesday
-- [ ] set up as an azd template on aca (frontend, backend, database- postgres)
+- [ ] make an azd template on aca (frontend, backend, database- postgres)
+  - [ ] can i use a predeploy hook for azd?
 - [ ] mark as template repo
 - [ ] submit to awesome azd
 
-## Next weekend?
-- [ ] image recognition with pytorch for validation that the image is a cat?
+- [ ] stretch features
+  - [ ] image recognition with pytorch for validation that the image is a cat?
+  - [ ] add spinner on rating cat with delay
+  - [ ] make it so that you can't rate cats more than once (use local storage?)
+  - [ ] make the all cats page sorted from highest to lowest (make it a scoreboard)

@@ -47,7 +47,8 @@ const SubmitCat = (props: {}) => {
 
   return (
     <Box component="form" maw={400} mx="auto" onSubmit={form.onSubmit(() => { })}>
-      <h1>Submit your cat</h1>
+      <h1>Submit your cat!</h1>
+      <p>Disclaimer: All cats are a perfect 10/10 or greater!</p>
 
       <TextInput
         label="Your cat's name"
@@ -79,26 +80,7 @@ const SubmitCat = (props: {}) => {
         mt="md"
         {...form.getInputProps('funfact')}
       />
-      <Dropzone
-        onDrop={onDrop}
-        maxSize={1024 * 1024}
-        accept={IMAGE_MIME_TYPE}
-        my="md"
-        children={[]}
-      />
-      <SimpleGrid
-        cols={4}
-        breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
-        mt={'xl'}>
-        {/* <Image
-            src={e => URL.createObjectURL(form.values.image)}
-            imageProps={{
-              onLoad: (e) =>
-                console.log(e)
-                // return(URL.revokeObjectURL(imageUrl))
-            }}
-          /> */}
-      </SimpleGrid>
+
 
       <Group position="right" mt="md">
         <Button type="submit" color="pink">Submit your cat!</Button>
