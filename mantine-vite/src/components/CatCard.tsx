@@ -123,7 +123,7 @@ const CatCard = () => {
               </Grid.Col>
               <Grid.Col xs={8}>
                 <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
-                  Your rating
+                    Rate {cat.name}!
                 </Text>
                 <RatingSlider handleSliderValue={handleSubmit} />
               </Grid.Col>

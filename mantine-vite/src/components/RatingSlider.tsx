@@ -17,7 +17,7 @@ const RatingSlider = (props: { handleSliderValue: Function }) => {
           thumbChildren={<IconHeart size="1rem" stroke={1.5} />}
           color="pink"
           label={null}
-          defaultValue={40}
+          defaultValue={0}
           styles={styles}
 
           onChangeEnd={

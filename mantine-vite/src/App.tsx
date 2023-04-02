@@ -122,19 +122,9 @@ const App = () => {
             header={
               <Header height={HEADER_HEIGHT} mb={120}>
                 <Container className={classes.inner}>
-                  <Anchor<'a'>
-                  href={"/"}
-                  onClick={
-                    e => {
-                      setActive(0);
-                      e.preventDefault();
-                    }
-                  }
-                  >
                   <Text className={classes.title} component="span" variant="gradient" gradient={{ from: 'purple', to: 'pink' }} inherit>
                     cats.
                   </Text>
-                  </Anchor>
                   <div className={classes.links}>
                     <Group spacing={0} position="right" className={classes.mainLinks}>
                       {mainItems}
