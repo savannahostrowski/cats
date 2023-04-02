@@ -7,10 +7,6 @@ All cats have a perfect score of 10!
 ## TODOs
 - [ ] Wire up submission form
 
-- [ ] clean up
-  - [ ] Move docker-compose to root
-  - [ ] Rename mantine-vite directory to frontend
-  - [ ] Typescript types
 
 - [ ] make an azd template on aca (frontend, backend, database- postgres)
   - [ ] can i use a predeploy hook for azd?

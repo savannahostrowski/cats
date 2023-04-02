@@ -62,7 +62,8 @@ const CatCard = () => {
   const handleSubmit = (value: number) => {
     if (!cat) throw new Error("No cat to rate");
     
-    fetch(`/api/cats/${cat.id}/rating`, {
+    const endpoint = `/api/cats/${cat.id}/rating`;
+    fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

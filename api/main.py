@@ -1,6 +1,6 @@
 import random
 from typing import Annotated, List
-from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import crud, database, models, schemas
@@ -33,19 +33,6 @@ def create_cat(cat: schemas.CatCreate, db: Session = Depends(get_db)):
     crud.create_rating(db=db, rating=10, cat_id=cat.id)
     return cat
 
-@app.post("/upload/")
-def upload(file: UploadFile = File(...)):
-    try:
-        contents = file.file.read()
-        with open(file.filename, "wb") as f:
-            f.write(contents)
-    except Exception:
-        return {"message": "There was an error uploading the file"}
-    finally:
-        file.file.close()
-
-    return {"message": "File successfully uploaded"}
-    
 # Get all cats
 @app.get("/api/cats/", response_model=List[schemas.Cat])
 def read_cats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -60,9 +47,13 @@ def read_cats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return cats
 
 # Get a random cat
-@app.get("/api/cats/random", response_model=schemas.Cat)
+@app.get("/api/cats/random", response_model=schemas.Cat or {})
 def read_random_cat(db: Session = Depends(get_db)):
     cats = crud.get_cats(db)
+
+    if len(cats) == 0:
+        return Response(status_code=200)
+    
     random_cat = random.choice(cats)
     ratings = crud.get_ratings(db, cat_id=random_cat.id)
     if ratings is None:
@@ -70,6 +61,7 @@ def read_random_cat(db: Session = Depends(get_db)):
     else:
         average = sum(ratings) / len(ratings)
         random_cat.average_rating = average * 100
+
     return random_cat
 
 # Get a specific cat and its rating
