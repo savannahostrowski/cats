@@ -1,7 +1,9 @@
-FROM node:19-alpine
+FROM node:19-alpine as builder
 WORKDIR /app
-COPY package*.json ./
+COPY package.json .
 RUN npm install
 COPY . .
-EXPOSE 5173
-CMD [ "npm", "run", "start" ]
+RUN npm run build
+
+FROM caddy
+COPY --from=builder /app/build /usr/share/caddy

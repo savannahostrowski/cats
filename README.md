@@ -5,8 +5,6 @@ A proof-of-concept web app that allows you to rate pictures of cats. You can eve
 All cats have a perfect score of 10!
 
 ## TODOs
-- [ ] Wire up submission form
-
 
 - [ ] make an azd template on aca (frontend, backend, database- postgres)
   - [ ] can i use a predeploy hook for azd?

@@ -9,7 +9,6 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
-
 param apiContainerAppName string = ''
 param applicationInsightsDashboardName string = ''
 param applicationInsightsName string = ''
@@ -40,7 +39,7 @@ param webApiBaseUrl string = ''
 param postgresPassword string
 
 var postgresUser = 'postgres'
-var postgresDatabaseName = 'postgres'
+var postgresDatabaseName = 'cats'
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
