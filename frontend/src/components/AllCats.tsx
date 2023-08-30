@@ -14,7 +14,7 @@ const CatTable = () => {
     const fetchCats = () => {
         setRequesting(true);
 
-        fetch("/api/cats")
+        fetch("https://ca-api-orlsk4hsi7bdc.icyglacier-6dbb1eaa.eastus.azurecontainerapps.io/api/cats")
             .then(res => res.json())
             .then(data => {
                 setCats(data);

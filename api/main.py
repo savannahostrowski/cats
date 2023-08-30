@@ -1,6 +1,5 @@
 import random
-from typing import Annotated, List
-from fastapi import Depends, FastAPI, File, HTTPException, Response, UploadFile
+from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import crud, database, models, schemas
@@ -63,18 +62,6 @@ def read_random_cat(db: Session = Depends(get_db)):
         random_cat.average_rating = average * 100
 
     return random_cat
-    db_cat = crud.get_cat(db, cat_id=cat_id)
-    if db_cat is None:
-        raise HTTPException(status_code=404, detail="Cat not found")
-    
-    ratings = crud.get_ratings(db, cat_id=cat_id)
-    if ratings is None:
-        raise HTTPException(status_code=404, detail="Rating not found")
-    else:
-        average = sum(ratings) / len(ratings)
-        db_cat.average_rating = average * 100
-
-    return db_cat
 
 # Create a new rating for a cat
 @app.post("/api/cats/{cat_id}/rating", response_model=schemas.Rating)

@@ -50,7 +50,7 @@ const CatCard = () => {
   const fetchCat = () => {
     setRequesting(true);
 
-    fetch("/api/cats/random")
+    fetch("https://ca-api-orlsk4hsi7bdc.icyglacier-6dbb1eaa.eastus.azurecontainerapps.io/api/cats/random")
       .then(res => res.json())
       .then(data => {
         setCat(data);

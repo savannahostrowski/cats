@@ -25,7 +25,7 @@ const SubmitCat = () => {
     const data = form.values;
 
     // Submit form data to API
-    fetch('/api/cats', {
+    fetch('https://ca-api-orlsk4hsi7bdc.icyglacier-6dbb1eaa.eastus.azurecontainerapps.io/api/cats', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
